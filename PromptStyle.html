@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://leiyi420.github.io/HierarchicalEmoTTS/ -->
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+  <title>PromptStyle: Controllable Style Transfer for Text-to-Speech with Natural Language Descriptions</title>
+  <meta name="generator" content="Jekyll v3.9.0">
+  <meta property="og:title" content="TODO: title">
+  <meta property="og:locale" content="en_US">
+  <link rel="canonical" href="https://xqfeng-josie.github.io/stress">
+  <meta property="og:url" content="https://xqfeng-josie.github.io/stress/">
+  <meta name="twitter:card" content="summary">
+  <!-- End Jekyll SEO tag -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1001.0" data-gr-ext-installed="">
+  <section class="page-header">
+    <!-- <h1 class="project-name">Demo PAGE</h1> -->
+    <!-- <h2 class="project-tagline"></h2> -->
+
+
+  </section>
+
+  <section class="main-content">
+    <h1 id="">
+      <center>PromptStyle: Controllable Style Transfer for Text-to-Speech with Natural Language Descriptions</center>
+    </h1>
+
+    <center><i>Anonymous submission to INTERSPEECH 2023</i></center>
+
+    <h2 id="abstract">1. Abstract<a name="abstract"></a></h2>
+    <p>Style transfer has shown improved performance in recent years. The style control is often restricted to discrete
+       style categories and expressive speech recordings. However, in practical situations, users may be interested in
+       transfer style with no reference speech in the target style just by typing text descriptions of desired styles.
+       The text-guided content generation techniques have drawn wide attention recently. In this work, we explore the
+       possibility of controllable style transfer with natural language descriptions. Specifically, we propose PromptStyle,
+       a text prompt-guided cross-speaker style transfer system. PromptStyle consists of an improved VITS and a cross-modal
+       style encoder. The cross-modal style encoder constructs a shared space of stylistic and semantic representation
+       through a two-stage training process. Experiments show that PromptStyle can achieve the goal of style transfer with
+       text prompts while maintaining relatively high stability and speaker similarity.
+    </p>
+    <center><img src='fig/training_process.png' width="40%" hspace="20"><img src='fig/inference_process.png' width="40%" hspace="20"></center>
+    <!-- <br><br> -->
+    <!-- <br><br> -->
+    <h2>2. Audio Samples<a name="Audio Samples"></a></h2>
+    <p>The following parts are the audio samples on PromptStyle and two baseline systems. Note that we show PromptStyle from 2 parts as follows.</p>
+    <p><b>Performance on the Style Transfer</b>: We aim to show that PromptStyle can control transfered style with different reference speech.</p>
+    <p><b>Ablation</b>: We aim to verify the influence of the style embedding and speaker embedding added to different modules as conditions.</p>
+    <p><b>Style Control by Text Prompt</b>: We aim to show that PromptStyle can control transfered style with different natural language descriptions.</p>
+    <h3>2.1 Performance on the Style Transfer</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center"><strong>reference speech</strong></th>
+          <th style="text-align: center"><strong>target speaker</strong></th>
+          <th style="text-align: center"><strong>CST-TTS</strong></th>
+          <th style="text-align: center"><strong>GST-MLTTS</strong></th>
+          <th style="text-align: center"><strong>PromptStyle</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/ref_speech/lyrical.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/cst-tts/抒情_1-7_yy_1_31.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/gst-mltts/抒情_1-7_yy_1_31.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/promptstyle/抒情_1-7_yy_1_31.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/ref_speech/warmful.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/cst-tts/温柔_1-7_yy_1_29.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/gst-mltts/温柔_1-7_yy_1_29.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/promptstyle/温柔_1-7_yy_1_29.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/ref_speech/xuanchuan.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/cst-tts/宣传-10分钟part1_6.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/gst-mltts/宣传-10分钟part1_6.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/promptstyle/宣传-10分钟part1_6.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/ref_speech/fearful.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/cst-tts/害怕_1-100_yy_F_61.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/gst-mltts/害怕_1-100_yy_F_61.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/promptstyle/害怕_1-100_yy_F_61.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/ref_speech/sad.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/cst-tts/悲伤情绪_125-165_24.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/gst-mltts/悲伤情绪_125-165_24.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/promptstyle/悲伤情绪_125-165_24.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/ref_speech/angry.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/cst-tts/生气_01_引子_穿越的唐家三少_10_0.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/gst-mltts/生气_01_引子_穿越的唐家三少_10_0.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/promptstyle/生气_01_引子_穿越的唐家三少_10_0.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/ref_speech/surprise.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/cst-tts/惊讶_1-100_ynan_F_3.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/gst-mltts/惊讶_1-100_ynan_F_3.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/promptstyle/惊讶_1-100_ynan_F_3.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/ref_speech/shenchen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/cst-tts/深沉_01_引子_穿越的唐家三少_11_0.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/gst-mltts/深沉_01_引子_穿越的唐家三少_11_0.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/promptstyle/深沉_01_引子_穿越的唐家三少_11_0.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/ref_speech/passion.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/cst-tts/青春_01_引子_穿越的唐家三少_10_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/gst-mltts/青春_01_引子_穿越的唐家三少_10_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 250px;" src="samples/exp1/promptstyle/青春_01_引子_穿越的唐家三少_10_1.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+
+    <h3>2.2 Ablation</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center"><strong>reference speech</strong></th>
+          <th style="text-align: center"><strong>target speaker</strong></th>
+          <th style="text-align: center"><strong>M1</strong></th>
+          <th style="text-align: center"><strong>M2</strong></th>
+          <th style="text-align: center"><strong>M3</strong></th>
+          <th style="text-align: center"><strong>Proposed</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ref_speech/lyrical.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation1/抒情_1-7_yy_1_31.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation2/抒情_1-7_yy_1_31.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation3/抒情_1-7_yy_1_31.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/promptstyle/抒情_1-7_yy_1_31.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ref_speech/warmful.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation1/温柔_1-7_yy_1_29.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation2/温柔_1-7_yy_1_29.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation3/温柔_1-7_yy_1_29.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/promptstyle/温柔_1-7_yy_1_29.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ref_speech/xuanchuan.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation1/宣传-10分钟part1_6.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation2/宣传-10分钟part1_6.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation3/宣传-10分钟part1_6.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/promptstyle/宣传-10分钟part1_6.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ref_speech/fearful.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation1/害怕_1-100_yy_F_61.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation2/害怕_1-100_yy_F_61.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation3/害怕_1-100_yy_F_61.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/promptstyle/害怕_1-100_yy_F_61.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ref_speech/sad.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation1/悲伤情绪_125-165_24.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation2/悲伤情绪_125-165_24.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation3/悲伤情绪_125-165_24.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/promptstyle/悲伤情绪_125-165_24.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ref_speech/angry.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation1/生气_01_引子_穿越的唐家三少_10_0.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation2/生气_01_引子_穿越的唐家三少_10_0.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation3/生气_01_引子_穿越的唐家三少_10_0.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/promptstyle/生气_01_引子_穿越的唐家三少_10_0.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ref_speech/surprise.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation1/惊讶_1-100_ynan_F_3.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation2/惊讶_1-100_ynan_F_3.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation3/惊讶_1-100_ynan_F_3.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/promptstyle/惊讶_1-100_ynan_F_3.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ref_speech/shenchen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation1/深沉_01_引子_穿越的唐家三少_11_0.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation2/深沉_01_引子_穿越的唐家三少_11_0.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation3/深沉_01_引子_穿越的唐家三少_11_0.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/promptstyle/深沉_01_引子_穿越的唐家三少_11_0.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ref_speech/passion.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/target_speech/audio_book_1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation1/青春_01_引子_穿越的唐家三少_10_1.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation2/青春_01_引子_穿越的唐家三少_10_1.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/ablation3/青春_01_引子_穿越的唐家三少_10_1.gen.wav" controls="" preload=""></audio></td>
+          <td style="text-align: left"><audio style="width: 220px;" src="samples/exp2/promptstyle/青春_01_引子_穿越的唐家三少_10_1.gen.wav" controls="" preload=""></audio></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+
+    <h3>2.3 Style Control by Text Prompt</h3>
+    <table>
+      <col width="40%">
+      <thead>
+        <tr>
+          <th style="text-align: center"><strong>style prompt</strong></th>
+          <th style="text-align: center"><strong>reference speech</strong></th>
+          <th style="text-align: center"><strong>control with reference speech</strong></th>
+          <th style="text-align: center"><strong>control with style prompt</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"><p>感到难以置信夹杂着赞许</p><p>Feeling incredulous mixed with a few admiration</p></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/reference_speech/9.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/speech_control/9.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/prompt_control/9.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><p>真的很失望，很恼火，太气愤了</p><p>Utterly dismayed, frustrated, and incensed by the situation.</p></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/reference_speech/8.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/speech_control/8.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/prompt_control/8.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><p>以凄凉和无助的语气恳求道</p><p>A poignant and helpless tone to the expression, with a sense of earnest entreaty</p></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/reference_speech/6.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/speech_control/6.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/prompt_control/6.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><p>为他人取得好成绩感到开心</p><p>Feeling happy for others when they achieve good results.</p></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/reference_speech/5.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/speech_control/5.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/prompt_control/5.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><p>温柔的语气包含着世间美好</p><p>The gentle tone contains the beauty of the world</p></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/reference_speech/4.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/speech_control/4.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/prompt_control/4.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><p>以一种轻松诙谐的语气问道</p><p>asked in a light-hearted and witty tone</p></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/reference_speech/3.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/speech_control/3.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/prompt_control/3.wav" controls="" preload=""></audio></td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><p>风趣诙谐又清晰的说明信息</p><p>Witty and humorous explanations that are also clear and concise convey information</p></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/reference_speech/1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/speech_control/1.wav" controls="" preload=""></audio></td>
+          <td style="text-align: center"><audio style="width: 250px;" src="samples/exp3/prompt_control/1.wav" controls="" preload=""></audio></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    
+    <footer class="site-footer">
+    </footer>
+  </section>
+</body>
+
+</html>
